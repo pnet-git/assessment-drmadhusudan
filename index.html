@@ -75,7 +75,7 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;}
 .optin h2{font-size:34px;color:var(--maroon-dark);margin-bottom:10px;}
 .optin .ready{display:inline-block;background:rgba(63,125,82,0.12);border:1px solid var(--green);color:var(--green);font-size:13px;font-weight:700;padding:6px 16px;border-radius:50px;margin-bottom:18px;}
 .optin p.sub{font-size:16px;color:#5c5048;margin-bottom:24px;}
-.optin input{width:100%;padding:15px 17px;margin-bottom:13px;border:1.5px solid var(--cream-dark);border-radius:11px;font-size:15px;font-family:'DM Sans',sans-serif;background:#fff;}
+.optin input{width:100%;padding:15px 17px;margin-bottom:13px;border:1.5px solid var(--cream-dark);border-radius:11px;font-size:16px;font-family:'DM Sans',sans-serif;background:#fff;}
 .optin input:focus{outline:none;border-color:var(--gold);}
 .optin .note{font-size:12px;color:#9a8d82;text-align:center;margin-top:12px;}
 
@@ -106,9 +106,34 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;}
 .result .email-note{font-size:13px;color:#9a8d82;margin-top:22px;}
 
 @media (max-width:600px){
-  .intro h1{font-size:32px;}
-  .q-text{font-size:23px;}
-  .result h2{font-size:27px;}
+  .wrap{padding:0 18px;}
+  .intro h1{font-size:30px;}
+  .intro p.sub{font-size:16px;}
+  .q-text{font-size:22px;margin-bottom:22px;}
+  .q-cat{font-size:12px;}
+  .option{padding:15px 16px;font-size:15px;gap:12px;}
+  .next-btn{padding:12px 26px;font-size:15px;}
+  .btn{padding:15px 32px;font-size:16px;}
+  .optin h2{font-size:27px;}
+  .optin p.sub{font-size:15px;}
+  .result h2{font-size:25px;}
+  .result .score-ring{width:140px;height:140px;}
+  .result .score-num .n{font-size:44px;}
+  .result .zone-msg{font-size:15px;}
+  .dims{max-width:100%;}
+  .weakest{padding:16px 18px;}
+  .weakest .w-text{font-size:14px;}
+  .result .cta-box{padding:26px 20px;}
+  .result .cta-box h3{font-size:23px;}
+  .card-insight img{height:180px;}
+  .card-body{padding:22px 20px 24px;}
+  .card-text{font-size:16px;}
+  .building-img{width:130px;height:130px;}
+  .building h2{font-size:27px;}
+  .progress-top{padding:12px 18px;}
+  /* question screen: clear the fixed progress bar, top-align so long Qs don't clip */
+  #screen-question.active{justify-content:flex-start;padding-top:80px;}
+  #screen-card.active,#screen-optin.active,#screen-result.active{justify-content:flex-start;padding-top:30px;}
 }
 
 /* INSIGHT CARD */
