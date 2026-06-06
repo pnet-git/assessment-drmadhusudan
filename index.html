@@ -554,8 +554,11 @@ function renderResult(r){
     dw.appendChild(el);
     setTimeout(()=>{el.querySelector('.dim-bar').style.width=(val/30*100)+'%';},200);
   });
-  // weakest
-  document.getElementById('weakestText').textContent='Your lowest area is '+r.weakestName+'. This is where the biggest, fastest improvement is possible — and where Dr. Madhu\u2019s approach focuses first.';
+  // weakest + Ayurveda belief-shift bridge (matches delivery email)
+  document.getElementById('weakestText').innerHTML =
+    'Your lowest area is <strong>'+r.weakestName+'</strong>. And here\u2019s what most men get wrong about it.<br><br>'+
+    'A pill can give you a few hours \u2014 then it wears off, because it only touches the surface. Your score points to something deeper, at the root. Root-level things don\u2019t get fixed by a patch \u2014 they get <strong>rebuilt</strong>, slowly and naturally, with the right daily support.<br><br>'+
+    'That\u2019s the whole idea behind Ayurveda \u2014 and exactly what Kamdev Modak is built on. Not a quick mask. A natural daily rebuild of the energy and vitality everything else stands on.';
 }
 </script>
 </body>
