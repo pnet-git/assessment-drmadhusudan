@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sexual Wellness Self-Assessment — Dr. Madhu Sudan</title>
+<meta name="description" content="Discover your Sexual Wellness Score in 2 minutes. The same assessment Dr. Madhu uses with his patients. 100% confidential.">
+<meta property="og:title" content="What's Your Sexual Wellness Score?">
+<meta property="og:description" content="Take the 2-minute confidential self-assessment used by Dr. Madhu with 1,14,000+ patients.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600;1,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --maroon:#8B1538; --maroon-dark:#5C0E25; --gold:#C9A14A; --gold-light:#E5C77E;
+  --cream:#FAF6EE; --cream-dark:#F0E9DC; --ink:#3a2e28;
+  --green:#3f7d52; --yellow:#C9A14A; --orange:#c1683a;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:linear-gradient(180deg,var(--cream) 0%,var(--cream-dark) 100%);color:var(--ink);line-height:1.6;min-height:100vh;}
+img{max-width:100%;height:auto;}
+h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:700;line-height:1.14;}
+.accent{color:var(--maroon);font-style:italic;}
+.wrap{max-width:600px;margin:0 auto;padding:0 22px;}
+button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;}
+.btn{display:inline-block;background:linear-gradient(135deg,var(--maroon) 0%,var(--maroon-dark) 100%);color:var(--cream);padding:16px 40px;border-radius:50px;font-size:17px;font-weight:700;box-shadow:0 8px 24px rgba(139,21,56,0.32);transition:all .25s;}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(139,21,56,0.42);}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+
+/* SCREEN SYSTEM */
+.screen{display:none;min-height:100vh;flex-direction:column;justify-content:center;padding:40px 0;}
+.screen.active{display:flex;animation:fade .35s ease;}
+@keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+/* INTRO */
+.intro-eyebrow{display:inline-block;background:rgba(201,161,74,0.18);border:1px solid var(--gold);color:var(--maroon);font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:7px 16px;border-radius:50px;margin-bottom:20px;}
+.intro h1{font-size:42px;color:var(--maroon-dark);margin-bottom:16px;}
+.intro p.sub{font-size:18px;color:#5c5048;margin-bottom:24px;}
+.intro .assure{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:30px;}
+.intro .assure span{font-size:13px;color:#7a6a5e;background:#fff;border:1px solid var(--cream-dark);padding:6px 14px;border-radius:50px;}
+.intro .assure span::before{content:'✓ ';color:var(--maroon);font-weight:700;}
+.intro .social{margin-top:24px;font-size:14px;color:var(--maroon-dark);font-weight:600;}
+.intro .doc{display:flex;align-items:center;gap:12px;margin-top:28px;padding-top:24px;border-top:1px solid var(--cream-dark);}
+.intro .doc img{width:54px;height:54px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);}
+.intro .doc .d-name{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:700;color:var(--maroon-dark);line-height:1.1;}
+.intro .doc .d-title{font-size:12px;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;}
+
+/* PROGRESS */
+.progress-top{position:fixed;top:0;left:0;right:0;background:rgba(250,246,238,0.95);backdrop-filter:blur(6px);padding:14px 22px;z-index:50;display:none;}
+.progress-top.show{display:block;}
+.progress-inner{max-width:600px;margin:0 auto;}
+.progress-meta{display:flex;justify-content:space-between;font-size:12px;color:#9a8d82;margin-bottom:7px;font-weight:600;letter-spacing:.5px;}
+.progress-bar{height:6px;background:var(--cream-dark);border-radius:50px;overflow:hidden;}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--maroon));border-radius:50px;transition:width .35s ease;}
+
+/* QUESTION */
+.q-cat{font-size:13px;color:var(--gold);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:12px;}
+.q-text{font-size:28px;color:var(--maroon-dark);margin-bottom:28px;font-family:'Cormorant Garamond',serif;font-weight:700;line-height:1.2;}
+.options{display:flex;flex-direction:column;gap:12px;}
+.option{background:#fff;border:1.5px solid var(--cream-dark);border-radius:14px;padding:17px 20px;font-size:16px;color:var(--ink);text-align:left;transition:all .18s;display:flex;align-items:center;gap:14px;}
+.option:hover{border-color:var(--gold);transform:translateX(3px);}
+.option.selected{border-color:var(--maroon);background:rgba(139,21,56,0.04);}
+.option .dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--cream-dark);flex-shrink:0;transition:all .18s;position:relative;}
+.option.selected .dot{border-color:var(--maroon);background:var(--maroon);}
+.option.selected .dot::after{content:'';position:absolute;top:4px;left:4px;width:8px;height:8px;border-radius:50%;background:#fff;}
+.q-text-input{width:100%;padding:16px 18px;border:1.5px solid var(--cream-dark);border-radius:12px;font-size:16px;font-family:'DM Sans',sans-serif;background:#fff;margin-bottom:6px;}
+.q-text-input:focus{outline:none;border-color:var(--gold);}
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:26px;}
+.back-btn{background:none;color:#9a8d82;font-size:15px;font-weight:600;padding:8px 4px;}
+.back-btn:hover{color:var(--maroon);}
+.next-btn{background:linear-gradient(135deg,var(--maroon) 0%,var(--maroon-dark) 100%);color:var(--cream);padding:13px 34px;border-radius:50px;font-size:16px;font-weight:700;box-shadow:0 6px 18px rgba(139,21,56,0.3);transition:all .25s;}
+.next-btn:disabled{opacity:.4;cursor:not-allowed;}
+
+/* OPT-IN */
+.optin h2{font-size:34px;color:var(--maroon-dark);margin-bottom:10px;}
+.optin .ready{display:inline-block;background:rgba(63,125,82,0.12);border:1px solid var(--green);color:var(--green);font-size:13px;font-weight:700;padding:6px 16px;border-radius:50px;margin-bottom:18px;}
+.optin p.sub{font-size:16px;color:#5c5048;margin-bottom:24px;}
+.optin input{width:100%;padding:15px 17px;margin-bottom:13px;border:1.5px solid var(--cream-dark);border-radius:11px;font-size:15px;font-family:'DM Sans',sans-serif;background:#fff;}
+.optin input:focus{outline:none;border-color:var(--gold);}
+.optin .note{font-size:12px;color:#9a8d82;text-align:center;margin-top:12px;}
+
+/* RESULT */
+.result{text-align:center;}
+.result .score-ring{width:170px;height:170px;margin:0 auto 20px;position:relative;}
+.result .score-num{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
+.result .score-num .n{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:700;color:var(--maroon-dark);line-height:1;}
+.result .score-num .of{font-size:13px;color:#9a8d82;}
+.result .zone-badge{display:inline-block;font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:8px 22px;border-radius:50px;margin-bottom:14px;}
+.result h2{font-size:34px;color:var(--maroon-dark);margin-bottom:12px;}
+.result .zone-msg{font-size:16px;color:#5c5048;max-width:480px;margin:0 auto 30px;}
+.dims{text-align:left;max-width:440px;margin:0 auto 30px;}
+.dim{margin-bottom:16px;}
+.dim-head{display:flex;justify-content:space-between;font-size:14px;font-weight:600;margin-bottom:6px;}
+.dim-head .dlabel{color:var(--ink);}
+.dim-head .dscore{color:#9a8d82;}
+.dim-track{height:9px;background:var(--cream-dark);border-radius:50px;overflow:hidden;}
+.dim-bar{height:100%;border-radius:50px;width:0;transition:width .8s ease;}
+.weakest{background:#fff;border:1px solid var(--gold);border-radius:14px;padding:18px 22px;max-width:460px;margin:0 auto 28px;text-align:left;}
+.weakest .w-label{font-size:12px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:5px;}
+.weakest .w-text{font-size:15px;color:var(--ink);}
+.result .cta-box{background:linear-gradient(135deg,var(--maroon) 0%,var(--maroon-dark) 100%);border-radius:18px;padding:30px 26px;color:var(--cream);max-width:480px;margin:0 auto;}
+.result .cta-box h3{color:#fff;font-size:26px;margin-bottom:10px;}
+.result .cta-box p{font-size:15px;color:rgba(255,255,255,0.9);margin-bottom:20px;}
+.result .cta-box a{display:inline-block;background:var(--gold);color:var(--maroon-dark);padding:15px 34px;border-radius:50px;font-weight:800;font-size:16px;text-decoration:none;transition:all .25s;}
+.result .cta-box a:hover{transform:translateY(-2px);}
+.result .email-note{font-size:13px;color:#9a8d82;margin-top:22px;}
+
+@media (max-width:600px){
+  .intro h1{font-size:32px;}
+  .q-text{font-size:23px;}
+  .result h2{font-size:27px;}
+}
+
+/* INSIGHT CARD */
+.card-insight{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 18px 50px rgba(91,14,37,0.15);border:1px solid var(--cream-dark);}
+.card-insight img{width:100%;height:230px;object-fit:cover;display:block;background:var(--cream-dark);}
+.card-body{padding:28px 26px 30px;}
+.card-eyebrow{font-size:13px;color:var(--gold);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:12px;}
+.card-text{font-size:18px;color:var(--ink);line-height:1.6;margin-bottom:22px;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;}
+.card-insight .next-btn{width:100%;}
+
+/* BUILDING */
+.building{text-align:center;}
+.building-img{width:160px;height:160px;border-radius:50%;object-fit:cover;margin:0 auto 26px;display:block;box-shadow:0 14px 40px rgba(91,14,37,0.2);background:var(--cream-dark);}
+.building-spinner{width:44px;height:44px;border:4px solid var(--cream-dark);border-top-color:var(--maroon);border-radius:50%;margin:0 auto 24px;animation:spin 0.9s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.building h2{font-size:32px;color:var(--maroon-dark);margin-bottom:14px;}
+.building p{font-size:16px;color:#5c5048;max-width:420px;margin:0 auto;transition:opacity .3s;}
+</style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div class="progress-top" id="progressTop">
+  <div class="progress-inner">
+    <div class="progress-meta"><span id="progLabel">Question 1</span><span id="progPct">0%</span></div>
+    <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- INTRO -->
+<section class="screen active" id="screen-intro">
+  <div class="intro">
+    <div class="intro-eyebrow">🔒 100% Confidential · 2 Minutes</div>
+    <h1>What's Your <span class="accent">Sexual Wellness Score?</span></h1>
+    <p class="sub">Most men have no idea where they actually stand. Before you can fix anything, you need to know where you are right now.</p>
+    <p class="sub">This is the same 2-minute assessment Dr. Madhu uses with his patients. Answer honestly — your results are private, and you'll get a personalised breakdown instantly.</p>
+    <div class="assure">
+      <span>100% Confidential</span>
+      <span>Personalised Result</span>
+      <span>Expert-Backed</span>
+    </div>
+    <button class="btn" onclick="startQuiz()">Start My Assessment →</button>
+    <div class="doc">
+      <img src="dr-madhu-quote.jpg" alt="Dr. Madhu Sudan">
+      <div>
+        <div class="d-name">Dr. Madhu Sudan</div>
+        <div class="d-title">14+ Years · 1,14,000+ Patients</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUESTION SCREENS injected by JS -->
+<section class="screen" id="screen-question">
+  <div class="q-cat" id="qCat"></div>
+  <div class="q-text" id="qText"></div>
+  <div class="options" id="qOptions"></div>
+  <div id="qTextInputWrap" style="display:none;">
+    <input type="text" class="q-text-input" id="qTextInput" placeholder="Type your answer…">
+  </div>
+  <div class="q-nav">
+    <button class="back-btn" id="backBtn" onclick="goBack()">← Back</button>
+    <button class="next-btn" id="nextBtn" onclick="goNext()" disabled>Next →</button>
+  </div>
+</section>
+
+<!-- INSIGHT CARD -->
+<section class="screen" id="screen-card">
+  <div class="card-insight">
+    <img id="cardImg" src="" alt="">
+    <div class="card-body">
+      <div class="card-eyebrow" id="cardEyebrow"></div>
+      <p class="card-text" id="cardText"></p>
+      <button class="next-btn" onclick="cardContinue()">Continue →</button>
+    </div>
+  </div>
+</section>
+
+<!-- BUILDING SCORE -->
+<section class="screen" id="screen-building">
+  <div class="building">
+    <img src="card-building.jpg" alt="" class="building-img" id="buildingImg">
+    <div class="building-spinner"></div>
+    <h2>Building Your <span class="accent">Personalised Score…</span></h2>
+    <p id="buildingStep">Analysing your answers across all 5 pillars of sexual wellness…</p>
+  </div>
+</section>
+
+<!-- OPT-IN -->
+<section class="screen" id="screen-optin">
+  <div class="optin">
+    <span class="ready">✓ Your results are ready</span>
+    <h2>Where Should We <span class="accent">Send Your Score?</span></h2>
+    <p class="sub">Enter your details to unlock your personalised Sexual Wellness Score + a full breakdown. We'll also email you a deeper explanation from Dr. Madhu.</p>
+    <input type="text" id="leadName" placeholder="Your first name" required>
+    <input type="email" id="leadEmail" placeholder="Email address" required>
+    <input type="tel" id="leadPhone" placeholder="WhatsApp number (optional)">
+    <button class="btn" id="revealBtn" onclick="submitLead()" style="width:100%;">Reveal My Score →</button>
+    <p class="note">🔒 100% confidential. We respect your privacy and never share your details.</p>
+  </div>
+</section>
+
+<!-- RESULT -->
+<section class="screen" id="screen-result">
+  <div class="result">
+    <div class="score-ring" id="scoreRing">
+      <svg viewBox="0 0 170 170" width="170" height="170">
+        <circle cx="85" cy="85" r="74" fill="none" stroke="#F0E9DC" stroke-width="14"/>
+        <circle id="ringFill" cx="85" cy="85" r="74" fill="none" stroke="#8B1538" stroke-width="14"
+          stroke-linecap="round" stroke-dasharray="465" stroke-dashoffset="465" transform="rotate(-90 85 85)"/>
+      </svg>
+      <div class="score-num"><div class="n" id="scoreNum">0</div><div class="of">out of 120</div></div>
+    </div>
+    <div class="zone-badge" id="zoneBadge"></div>
+    <h2 id="zoneTitle"></h2>
+    <p class="zone-msg" id="zoneMsg"></p>
+
+    <div class="dims" id="dimsWrap"></div>
+
+    <div class="weakest" id="weakestWrap">
+      <div class="w-label">Your Biggest Opportunity</div>
+      <div class="w-text" id="weakestText"></div>
+    </div>
+
+    <div class="cta-box">
+      <h3 id="ctaTitle">Start Your 72-Hour Transformation</h3>
+      <p id="ctaText">Kamdev Modak — one a day. Natural, discreet, and built to rebuild energy, stamina and confidence at the root.</p>
+      <a href="https://modak.drmadhusudan.com" id="ctaBtn">See Kamdev Modak →</a>
+    </div>
+    <p class="email-note">📧 We've also emailed your full results to you. Check your inbox.</p>
+  </div>
+</section>
+
+</div>
+
+<script>
+// ====== CONFIG ======
+const SUBMIT_ENDPOINT = "/api/submit";
+const MODAK_URL = "https://modak.drmadhusudan.com";
+
+// ====== UTMs ======
+function getUTMs(){var p=new URLSearchParams(location.search);return{utm_source:p.get('utm_source')||'',utm_medium:p.get('utm_medium')||'',utm_campaign:p.get('utm_campaign')||''};}
+const UTMS = getUTMs();
+
+// ====== QUESTIONS ======
+// dimension keys: physical, emotional, relationship, awareness
+const QUESTIONS = [
+  { id:'primary_concern', cat:'Primary Concern', scored:false,
+    text:"What's your primary concern about your sexual wellness?",
+    options:[
+      {label:'Erectile Dysfunction (ED)', val:'Erectile Dysfunction'},
+      {label:'Premature Ejaculation', val:'Premature Ejaculation'},
+      {label:"I'm not sure what I'm dealing with", val:'Not sure'},
+      {label:'Other', val:'Other'}
+    ]},
+  { id:'q_energy', cat:'Physical Vitality', dim:'physical', scored:true,
+    text:'How would you rate your overall physical energy and stamina?',
+    options:[
+      {label:'Excellent — energetic most of the time', score:10},
+      {label:'Good — generally energetic, occasional dips', score:7},
+      {label:'Average — some days good, some low', score:4},
+      {label:'Low — often feel tired', score:1}
+    ]},
+  { id:'q_physical', cat:'Physical Vitality', dim:'physical', scored:true,
+    text:'Do you experience any physical concerns related to sexual health?',
+    options:[
+      {label:'No concerns — everything feels normal', score:10},
+      {label:'Minor concerns — occasional issues', score:7},
+      {label:'Moderate concerns — frequent issues that worry me', score:4},
+      {label:'Significant concerns — affecting daily life', score:1}
+    ]},
+  { id:'q_sleep', cat:'Physical Vitality', dim:'physical', scored:true,
+    text:'How well do you sleep and feel rested?',
+    options:[
+      {label:'Excellent — sleep well, wake refreshed', score:10},
+      {label:'Good — generally restful sleep', score:7},
+      {label:'Fair — sometimes wake up tired', score:4},
+      {label:'Poor — rarely feel rested', score:1}
+    ]},
+  { id:'q_confidence', cat:'Emotional Confidence', dim:'emotional', scored:true,
+    text:'How confident do you feel about your intimate life?',
+    options:[
+      {label:'Very confident', score:10},
+      {label:'Somewhat confident', score:7},
+      {label:'Neutral', score:4},
+      {label:'Low confidence', score:1}
+    ]},
+  { id:'q_stress', cat:'Emotional Confidence', dim:'emotional', scored:true,
+    text:'How often does stress or anxiety affect your intimate relationships?',
+    options:[
+      {label:'Rarely or never', score:10},
+      {label:'Occasionally', score:7},
+      {label:'Frequently', score:4},
+      {label:'Constantly', score:1}
+    ]},
+  { id:'q_pressure', cat:'Emotional Confidence', dim:'emotional', scored:true,
+    text:'Do you feel pressure or worry about satisfying your partner?',
+    options:[
+      {label:'No pressure', score:10},
+      {label:'Slight pressure', score:7},
+      {label:'Moderate pressure', score:4},
+      {label:'High pressure', score:1}
+    ]},
+  { id:'q_communication', cat:'Relationship Connection', dim:'relationship', scored:true,
+    text:'How comfortable are you discussing intimate topics with your partner?',
+    options:[
+      {label:'Very comfortable', score:10},
+      {label:'Somewhat comfortable', score:7},
+      {label:'Uncomfortable', score:4},
+      {label:'Very uncomfortable', score:1}
+    ]},
+  { id:'q_connection', cat:'Relationship Connection', dim:'relationship', scored:true,
+    text:'How emotionally connected do you feel with your partner?',
+    options:[
+      {label:'Very connected', score:10},
+      {label:'Connected', score:7},
+      {label:'Somewhat disconnected', score:4},
+      {label:'Disconnected', score:1}
+    ]},
+  { id:'q_satisfaction', cat:'Relationship Connection', dim:'relationship', scored:true,
+    text:'How satisfied are you with your intimate relationship overall?',
+    options:[
+      {label:'Very satisfied', score:10},
+      {label:'Satisfied', score:7},
+      {label:'Neutral', score:4},
+      {label:'Dissatisfied', score:1}
+    ]},
+  { id:'q_knowledge', cat:'Awareness & Action', dim:'awareness', scored:true,
+    text:'How knowledgeable are you about sexual wellness?',
+    options:[
+      {label:'Very knowledgeable', score:10},
+      {label:'Somewhat knowledgeable', score:7},
+      {label:'Limited knowledge', score:4},
+      {label:'Very limited knowledge', score:1}
+    ]},
+  { id:'q_proactiveness', cat:'Awareness & Action', dim:'awareness', scored:true,
+    text:'How proactive are you about your sexual wellness?',
+    options:[
+      {label:'Very proactive', score:10},
+      {label:'Somewhat proactive', score:7},
+      {label:'Reactive — only when issues arise', score:4},
+      {label:'Not proactive', score:1}
+    ]},
+  { id:'q_situation', cat:'Awareness & Action', dim:'awareness', scored:true,
+    text:'What best describes your current situation?',
+    options:[
+      {label:'Just want to optimize and maintain good health', score:10},
+      {label:'Minor concerns but managing', score:7},
+      {label:'Experiencing challenges that need attention', score:4},
+      {label:'Significant issues affecting quality of life', score:1}
+    ]}
+];
+
+// ====== INSIGHT CARDS (shown AFTER the question at given index, 0-based) ======
+// After q_sleep (index 3 = end of Physical block), q_pressure (6 = Emotional), q_satisfaction (9 = Relationship)
+const CARDS = {
+  3: { img:'card-nutrition.jpg', eyebrow:'Ayurvedic Wisdom · Nutrition',
+       text:'"Your body runs on what you feed it. Ancient Ayurveda knew this 5,000 years ago — real energy and vitality start with nourishment, not quick fixes."' },
+  6: { img:'card-science.jpg', eyebrow:'Mind & Body · The Science',
+       text:'"Modern science now confirms what Ayurveda always taught — stress and the mind directly shape physical performance. If you feel this, you are far from alone."' },
+  9: { img:'card-herbs.jpg', eyebrow:'Ayurvedic Wisdom · Herbs & Balance',
+       text:'"Lasting change comes from restoring balance — not masking symptoms. The right herbs, used consistently, rebuild what pills only hide."' }
+};
+
+// ====== STATE ======
+let current = 0;
+const answers = {};
+let concernOther = '';
+let pendingCardAfter = null; // index we just answered, if a card is due
+
+// ====== NAV ======
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+
+function startQuiz(){current=0;document.getElementById('progressTop').classList.add('show');renderQuestion();show('screen-question');}
+
+function renderQuestion(){
+  const q = QUESTIONS[current];
+  document.getElementById('qCat').textContent = q.cat;
+  document.getElementById('qText').textContent = q.text;
+  // progress
+  const pct = Math.round((current/(QUESTIONS.length))*100);
+  document.getElementById('progFill').style.width = pct+'%';
+  document.getElementById('progPct').textContent = pct+'%';
+  document.getElementById('progLabel').textContent = 'Question '+(current+1)+' of '+QUESTIONS.length;
+  // options
+  const wrap = document.getElementById('qOptions'); wrap.innerHTML='';
+  const stored = answers[q.id];
+  q.options.forEach((opt,i)=>{
+    const div = document.createElement('div');
+    div.className = 'option' + (stored && stored.idx===i ? ' selected':'');
+    div.innerHTML = '<span class="dot"></span><span>'+opt.label+'</span>';
+    div.onclick = ()=>selectOption(q,i,opt);
+    wrap.appendChild(div);
+  });
+  // conditional "Other" text box
+  const tWrap = document.getElementById('qTextInputWrap');
+  const tInput = document.getElementById('qTextInput');
+  if(q.id==='primary_concern' && stored && stored.val==='Other'){
+    tWrap.style.display='block'; tInput.value=concernOther;
+    tInput.oninput=()=>{concernOther=tInput.value;};
+  } else { tWrap.style.display='none'; }
+  // back button
+  document.getElementById('backBtn').style.visibility = current===0 ? 'hidden':'visible';
+  // next enabled?
+  document.getElementById('nextBtn').disabled = !answers[q.id];
+}
+
+function selectOption(q,i,opt){
+  answers[q.id] = q.scored ? {idx:i, score:opt.score, dim:q.dim} : {idx:i, val:opt.val};
+  if(q.id==='primary_concern'){
+    const tWrap=document.getElementById('qTextInputWrap');
+    if(opt.val==='Other'){tWrap.style.display='block';document.getElementById('qTextInput').oninput=(e)=>{concernOther=e.target.value;};}
+    else{tWrap.style.display='none';concernOther='';}
+  }
+  renderQuestion();
+}
+
+function goNext(){
+  // is an insight card due after the current question?
+  if(CARDS[current]){
+    const c = CARDS[current];
+    document.getElementById('cardImg').src = c.img;
+    document.getElementById('cardEyebrow').textContent = c.eyebrow;
+    document.getElementById('cardText').textContent = c.text;
+    pendingCardAfter = current;
+    document.getElementById('progressTop').classList.remove('show');
+    show('screen-card');
+    return;
+  }
+  advanceQuestion();
+}
+
+function cardContinue(){
+  document.getElementById('progressTop').classList.add('show');
+  advanceQuestion();
+}
+
+function advanceQuestion(){
+  if(current < QUESTIONS.length-1){ current++; renderQuestion(); show('screen-question'); }
+  else { // done → building beat → opt-in
+    document.getElementById('progFill').style.width='100%';
+    document.getElementById('progPct').textContent='100%';
+    document.getElementById('progressTop').classList.remove('show');
+    runBuilding();
+  }
+}
+
+function runBuilding(){
+  show('screen-building');
+  const steps = [
+    'Analysing your answers across all 5 pillars of sexual wellness…',
+    'Mapping your Physical, Emotional & Relationship scores…',
+    'Preparing your personalised result…'
+  ];
+  let i=0;
+  const p=document.getElementById('buildingStep');
+  const iv=setInterval(()=>{
+    i++;
+    if(i<steps.length){p.style.opacity=0;setTimeout(()=>{p.textContent=steps[i];p.style.opacity=1;},250);}
+    else{clearInterval(iv);show('screen-optin');}
+  },1100);
+}
+
+function goBack(){ if(current>0){current--;renderQuestion();} }
+
+// ====== SCORING ======
+function computeResult(){
+  const dims = {physical:0, emotional:0, relationship:0, awareness:0};
+  QUESTIONS.forEach(q=>{ if(q.scored && answers[q.id]) dims[q.dim]+=answers[q.id].score; });
+  const total = dims.physical+dims.emotional+dims.relationship+dims.awareness;
+  let zone, zoneColor;
+  if(total>=96){zone='Thriving';zoneColor='var(--green)';}
+  else if(total>=60){zone='Growth';zoneColor='var(--yellow)';}
+  else {zone='Needs Attention';zoneColor='var(--orange)';}
+  // weakest dimension
+  const dimNames={physical:'Physical Vitality',emotional:'Emotional Confidence',relationship:'Relationship Connection',awareness:'Awareness & Action'};
+  let weakest=Object.keys(dims).reduce((a,b)=>dims[a]<=dims[b]?a:b);
+  return {dims, total, zone, zoneColor, weakest, weakestName:dimNames[weakest]};
+}
+
+// ====== SUBMIT ======
+function submitLead(){
+  const name=document.getElementById('leadName').value.trim();
+  const email=document.getElementById('leadEmail').value.trim();
+  const phone=document.getElementById('leadPhone').value.trim();
+  if(name.length<2){alert('Please enter your name');return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){alert('Please enter a valid email');return;}
+  const btn=document.getElementById('revealBtn'); btn.textContent='Calculating…'; btn.disabled=true;
+
+  const r = computeResult();
+  const payload = {
+    name, email, phone,
+    primary_concern: answers['primary_concern'] ? answers['primary_concern'].val : '',
+    concern_other: concernOther,
+    q_energy:s('q_energy'), q_physical:s('q_physical'), q_sleep:s('q_sleep'),
+    q_confidence:s('q_confidence'), q_stress:s('q_stress'), q_pressure:s('q_pressure'),
+    q_communication:s('q_communication'), q_connection:s('q_connection'), q_satisfaction:s('q_satisfaction'),
+    q_knowledge:s('q_knowledge'), q_proactiveness:s('q_proactiveness'), q_situation:s('q_situation'),
+    dim_physical:r.dims.physical, dim_emotional:r.dims.emotional, dim_relationship:r.dims.relationship, dim_awareness:r.dims.awareness,
+    total_score:r.total, zone:r.zone, weakest_dimension:r.weakestName,
+    utm_source:UTMS.utm_source, utm_medium:UTMS.utm_medium, utm_campaign:UTMS.utm_campaign
+  };
+
+  // fire to backend (Supabase + Kit). Always reveal result even if it errors.
+  fetch(SUBMIT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+    .then(()=>renderResult(r)).catch(()=>renderResult(r));
+}
+function s(id){return answers[id]?answers[id].score:null;}
+
+// ====== RENDER RESULT ======
+function renderResult(r){
+  show('screen-result');
+  // ring + count up
+  const ringFill=document.getElementById('ringFill');
+  const circ=465; const frac=r.total/120;
+  ringFill.style.stroke = r.zoneColor.replace('var(--green)','#3f7d52').replace('var(--yellow)','#C9A14A').replace('var(--orange)','#c1683a');
+  setTimeout(()=>{ringFill.style.transition='stroke-dashoffset 1.2s ease';ringFill.style.strokeDashoffset=circ*(1-frac);},100);
+  // count up number
+  let n=0; const target=r.total; const step=Math.max(1,Math.round(target/40));
+  const counter=setInterval(()=>{n+=step;if(n>=target){n=target;clearInterval(counter);}document.getElementById('scoreNum').textContent=n;},25);
+  // zone
+  const badge=document.getElementById('zoneBadge');
+  badge.textContent=r.zone; badge.style.color=r.zoneColor; badge.style.background='rgba(0,0,0,0.04)'; badge.style.border='1px solid '+r.zoneColor;
+  const titles={'Thriving':"You're Thriving","Growth":"You're in the Growth Zone","Needs Attention":"Time to Take Action"};
+  const msgs={
+    'Thriving':"You're in a strong position. Your foundations are solid — now it's about protecting and optimising what's working.",
+    'Growth':"You're doing some things well, but there are clear areas where focused attention could change how you feel and perform.",
+    'Needs Attention':"Your results show real challenges that are affecting your daily life. The good news: with the right approach, these are very addressable."
+  };
+  document.getElementById('zoneTitle').textContent=titles[r.zone];
+  document.getElementById('zoneMsg').textContent=msgs[r.zone];
+  // dimension bars
+  const dimNames={physical:'Physical Vitality',emotional:'Emotional Confidence',relationship:'Relationship Connection',awareness:'Awareness & Action'};
+  const colors={physical:'#8B1538',emotional:'#C9A14A',relationship:'#5C0E25',awareness:'#3f7d52'};
+  const dw=document.getElementById('dimsWrap'); dw.innerHTML='';
+  Object.keys(dimNames).forEach(k=>{
+    const val=r.dims[k];
+    const el=document.createElement('div'); el.className='dim';
+    el.innerHTML='<div class="dim-head"><span class="dlabel">'+dimNames[k]+'</span><span class="dscore">'+val+'/30</span></div>'+
+      '<div class="dim-track"><div class="dim-bar" style="background:'+colors[k]+'"></div></div>';
+    dw.appendChild(el);
+    setTimeout(()=>{el.querySelector('.dim-bar').style.width=(val/30*100)+'%';},200);
+  });
+  // weakest
+  document.getElementById('weakestText').textContent='Your lowest area is '+r.weakestName+'. This is where the biggest, fastest improvement is possible — and where Dr. Madhu\u2019s approach focuses first.';
+}
+</script>
+</body>
+</html>
