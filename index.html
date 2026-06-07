@@ -39,6 +39,20 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;}
 .intro .assure{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:30px;}
 .intro .assure span{font-size:13px;color:#7a6a5e;background:#fff;border:1px solid var(--cream-dark);padding:6px 14px;border-radius:50px;}
 .intro .assure span::before{content:'✓ ';color:var(--maroon);font-weight:700;}
+
+/* SHOCK BAND */
+.shock-band{background:linear-gradient(135deg,#5C0E25 0%,#8B1538 100%);border-radius:16px;padding:24px 24px 22px;margin:8px 0 24px;color:#fff;box-shadow:0 14px 40px rgba(91,14,37,0.28);}
+.shock-stat{font-size:16px;line-height:1.55;color:#fff;}
+.shock-num{font-family:'Cormorant Garamond',serif;font-weight:700;color:var(--gold-light);font-size:22px;}
+.shock-line{font-size:15px;line-height:1.55;color:#f3dde4;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.18);}
+.shock-src{font-size:11px;color:var(--gold-light);font-style:italic;white-space:nowrap;}
+.shock-punch{margin-top:16px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;font-weight:600;color:var(--gold-light);line-height:1.35;}
+.disclaimer{font-size:11px;color:#9a8d82;line-height:1.5;margin-top:20px;max-width:520px;}
+
+/* QUESTION FOOTNOTE */
+.q-footnote{margin-top:22px;background:rgba(201,161,74,0.1);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 16px;font-size:13px;line-height:1.5;color:#6b5d50;display:flex;gap:10px;align-items:flex-start;}
+.q-footnote .fn-icon{flex-shrink:0;font-size:15px;line-height:1.4;}
+.q-footnote .fn-src{font-style:italic;color:var(--gold);font-size:11px;}
 .intro .social{margin-top:24px;font-size:14px;color:var(--maroon-dark);font-weight:600;}
 .intro .doc{display:flex;align-items:center;gap:12px;margin-top:28px;padding-top:24px;border-top:1px solid var(--cream-dark);}
 .intro .doc img{width:54px;height:54px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);}
@@ -171,6 +185,14 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;}
     <div class="intro-eyebrow">🔒 100% Confidential · 2 Minutes</div>
     <h1>What's Your <span class="accent">Sexual Wellness Score?</span></h1>
     <p class="sub">Most men have no idea where they actually stand. Before you can fix anything, you need to know where you are right now.</p>
+
+    <!-- SHOCK BAND -->
+    <div class="shock-band">
+      <div class="shock-stat"><span class="shock-num">1 in 4</span> men struggle with sexual performance issues like ED — but <strong>fewer than 1 in 12 have ever been diagnosed.</strong> Most don't even know they have a problem. <span class="shock-src">(J. Sexual Medicine, 2024)</span></div>
+      <div class="shock-line">It's not just an "older man" problem either — <strong>1 in 6 men aged 18–24</strong> meet the criteria too. <span class="shock-src">(J. Sexual Medicine, 2024)</span></div>
+      <div class="shock-punch">The first step was never a pill. It's knowing where you actually stand.</div>
+    </div>
+
     <p class="sub">This is the same 2-minute assessment Dr. Madhu uses with his patients. Answer honestly — your results are private, and you'll get a personalised breakdown instantly.</p>
     <div class="assure">
       <span>100% Confidential</span>
@@ -185,6 +207,7 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;}
         <div class="d-title">14+ Years · 1,14,000+ Patients</div>
       </div>
     </div>
+    <p class="disclaimer">The figures above reflect published, peer-reviewed research and are shared for awareness only. They are not a diagnosis. This self-assessment is an educational tool, not a substitute for professional medical advice.</p>
   </div>
 </section>
 
@@ -195,6 +218,10 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;}
   <div class="options" id="qOptions"></div>
   <div id="qTextInputWrap" style="display:none;">
     <input type="text" class="q-text-input" id="qTextInput" placeholder="Type your answer…">
+  </div>
+  <div class="q-footnote" id="qFootnote" style="display:none;">
+    <span class="fn-icon">📊</span>
+    <span><span id="qFootnoteText"></span> <span class="fn-src" id="qFootnoteSrc"></span></span>
   </div>
   <div class="q-nav">
     <button class="back-btn" id="backBtn" onclick="goBack()">← Back</button>
@@ -389,7 +416,13 @@ const QUESTIONS = [
     ]}
 ];
 
-// ====== INSIGHT CARDS (shown AFTER the question at given index, 0-based) ======
+// ====== QUESTION FOOTNOTES (data points shown under specific questions, by index) ======
+const FOOTNOTES = {
+  1: { text:'Men with low energy and vitality often show early signs of sexual health issues — and ED can appear 3–5 years before other health warning signs.', src:'(J. Sexual Medicine)' },
+  4: { text:'Studies have found men with ED are several times more likely to experience anxiety and depression than men without it.', src:'(Andrologia, 2019)' },
+  7: { text:'Low sexual satisfaction is one of the most common hidden causes of relationship strain and breakdown.', src:'(Procedia Social & Behavioral Sciences)' },
+  10: { text:'The good news: caught early, these issues are highly addressable — most men simply never check.', src:'(J. Sexual Medicine)' }
+};
 // After q_sleep (index 3 = end of Physical block), q_pressure (6 = Emotional), q_satisfaction (9 = Relationship)
 const CARDS = {
   3: { img:'card-nutrition.jpg', eyebrow:'Ayurvedic Wisdom · Nutrition',
@@ -441,6 +474,14 @@ function renderQuestion(){
   document.getElementById('backBtn').style.visibility = current===0 ? 'hidden':'visible';
   // next enabled?
   document.getElementById('nextBtn').disabled = !answers[q.id];
+  // footnote (data point) for this question, if any
+  const fn = FOOTNOTES[current];
+  const fnEl = document.getElementById('qFootnote');
+  if(fn){
+    document.getElementById('qFootnoteText').textContent = fn.text;
+    document.getElementById('qFootnoteSrc').textContent = fn.src;
+    fnEl.style.display = 'flex';
+  } else { fnEl.style.display = 'none'; }
 }
 
 function selectOption(q,i,opt){
