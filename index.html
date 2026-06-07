@@ -53,6 +53,8 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;}
 .q-footnote{margin-top:22px;background:rgba(201,161,74,0.1);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 16px;font-size:13px;line-height:1.5;color:#6b5d50;display:flex;gap:10px;align-items:flex-start;}
 .q-footnote .fn-icon{flex-shrink:0;font-size:15px;line-height:1.4;}
 .q-footnote .fn-src{font-style:italic;color:var(--gold);font-size:11px;}
+.q-footnote.fn-alert{background:rgba(193,104,58,0.1);border-left-color:var(--orange);}
+.q-footnote.fn-alert .fn-src{color:var(--orange);}
 .intro .social{margin-top:24px;font-size:14px;color:var(--maroon-dark);font-weight:600;}
 .intro .doc{display:flex;align-items:center;gap:12px;margin-top:28px;padding-top:24px;border-top:1px solid var(--cream-dark);}
 .intro .doc img{width:54px;height:54px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);}
@@ -417,10 +419,10 @@ const QUESTIONS = [
 
 // ====== QUESTION FOOTNOTES (data points shown under specific questions, by index) ======
 const FOOTNOTES = {
-  1: { text:'It\u2019s not just an "older man" problem — 1 in 6 men aged 18\u201324 meet the criteria for ED too. Energy and vitality are often the first signs.', src:'(J. Sexual Medicine, 2024)' },
-  4: { text:'Studies have found men with ED are several times more likely to experience anxiety and depression than men without it.', src:'(Andrologia, 2019)' },
-  7: { text:'Low sexual satisfaction is one of the most common hidden causes of relationship strain and breakdown.', src:'(Procedia Social & Behavioral Sciences)' },
-  10: { text:'The good news: caught early, these issues are highly addressable — most men simply never check.', src:'(J. Sexual Medicine)' }
+  1: { icon:'📊', text:'It\u2019s not just an "older man" problem — 1 in 6 men aged 18\u201324 meet the criteria for ED too. Energy and vitality are often the first signs.', src:'(J. Sexual Medicine, 2024)' },
+  4: { icon:'🩺', text:'Studies have found men with ED are several times more likely to experience anxiety and depression than men without it.', src:'(Andrologia, 2019)' },
+  7: { icon:'⚠️', text:'Low sexual satisfaction is one of the most common hidden causes of relationship strain and breakdown.', src:'(Procedia Social & Behavioral Sciences)' },
+  10: { icon:'✨', text:'The good news: caught early, these issues are highly addressable — most men simply never check.', src:'(J. Sexual Medicine)' }
 };
 // After q_sleep (index 3 = end of Physical block), q_pressure (6 = Emotional), q_satisfaction (9 = Relationship)
 const CARDS = {
@@ -477,8 +479,11 @@ function renderQuestion(){
   const fn = FOOTNOTES[current];
   const fnEl = document.getElementById('qFootnote');
   if(fn){
+    document.querySelector('#qFootnote .fn-icon').textContent = fn.icon || '📊';
     document.getElementById('qFootnoteText').textContent = fn.text;
     document.getElementById('qFootnoteSrc').textContent = fn.src;
+    // warning type gets an amber alert tint; others use the default gold
+    if(fn.icon === '⚠️'){ fnEl.classList.add('fn-alert'); } else { fnEl.classList.remove('fn-alert'); }
     fnEl.style.display = 'flex';
   } else { fnEl.style.display = 'none'; }
 }
