@@ -115,10 +115,32 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;}
 .weakest .w-label{font-size:12px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:5px;}
 .weakest .w-text{font-size:15px;color:var(--ink);}
 .result .cta-box{background:linear-gradient(135deg,var(--maroon) 0%,var(--maroon-dark) 100%);border-radius:18px;padding:30px 26px;color:var(--cream);max-width:480px;margin:0 auto;}
-.result .cta-box h3{color:#fff;font-size:26px;margin-bottom:10px;}
-.result .cta-box p{font-size:15px;color:rgba(255,255,255,0.9);margin-bottom:20px;}
-.result .cta-box a{display:inline-block;background:var(--gold);color:var(--maroon-dark);padding:15px 34px;border-radius:50px;font-weight:800;font-size:16px;text-decoration:none;transition:all .25s;}
+.result .cta-box h3{color:#fff;font-size:30px;margin-bottom:12px;font-family:'Cormorant Garamond',serif;}
+.result .cta-box .cta-what{font-size:15px;color:rgba(255,255,255,0.92);margin-bottom:14px;line-height:1.55;}
+.result .cta-box .cta-line{font-size:17px;color:var(--gold-light);font-style:italic;font-family:'Cormorant Garamond',serif;font-weight:600;margin-bottom:20px;}
+.result .cta-box a{display:inline-block;background:var(--gold);color:var(--maroon-dark);padding:16px 38px;border-radius:50px;font-weight:800;font-size:17px;text-decoration:none;transition:all .25s;}
 .result .cta-box a:hover{transform:translateY(-2px);}
+.cta-badge{display:inline-block;background:rgba(255,255,255,0.14);border:1px solid var(--gold-light);color:var(--gold-light);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:6px 16px;border-radius:50px;margin-bottom:16px;}
+.cta-bonus{margin-top:16px;font-size:14px;color:var(--gold-light);font-weight:600;}
+
+/* recommendation arrow lead */
+.rec-lead{max-width:480px;margin:32px auto 0;}
+.rec-arrow-top{font-size:16px;color:var(--ink);font-weight:600;}
+.rec-arrow-mid{font-size:26px;color:var(--gold);line-height:1;margin:6px 0;}
+.rec-arrow-bottom{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--maroon-dark);margin-bottom:18px;}
+
+/* Dr Madhu recommendation card */
+.rec-doc{display:flex;align-items:center;gap:14px;justify-content:center;max-width:480px;margin:0 auto 18px;}
+.rec-doc img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);}
+.rec-doc-text{text-align:left;}
+.rec-doc-says{font-size:12px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;font-weight:700;}
+.rec-doc-name{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--maroon-dark);line-height:1.1;}
+
+/* secondary consult CTA */
+.cta-secondary{max-width:480px;margin:20px auto 0;padding:18px 22px;background:#fff;border:1px solid var(--cream-dark);border-radius:14px;}
+.cta-secondary span{display:block;font-size:14px;color:#6b5d50;margin-bottom:8px;}
+.cta-secondary a{font-size:15px;font-weight:700;color:var(--maroon);text-decoration:none;}
+.cta-secondary a:hover{text-decoration:underline;}
 .result .email-note{font-size:13px;color:#9a8d82;margin-top:22px;}
 
 @media (max-width:600px){
@@ -288,12 +310,35 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;}
       <div class="w-text" id="weakestText"></div>
     </div>
 
-    <div class="cta-box">
-      <h3 id="ctaTitle">Start Your 72-Hour Transformation</h3>
-      <p id="ctaText">Kamdev Modak — one a day. Natural, discreet, and built to rebuild energy, stamina and confidence at the root.</p>
-      <a href="https://modak.drmadhusudan.com" id="ctaBtn">See Kamdev Modak →</a>
+    <!-- ARROW: their result → Dr Madhu's recommendation -->
+    <div class="rec-lead" id="recLead"></div>
+
+    <!-- Dr Madhu recommendation card -->
+    <div class="rec-doc">
+      <img src="dr-madhu-quote.jpg" alt="Dr. Madhu Sudan">
+      <div class="rec-doc-text">
+        <div class="rec-doc-says">Dr. Madhu recommends</div>
+        <div class="rec-doc-name">Kamdev Modak</div>
+      </div>
     </div>
-    <p class="email-note">📧 We've also emailed your full results to you. Check your inbox.</p>
+
+    <!-- PRIMARY: Modak -->
+    <div class="cta-box">
+      <div class="cta-badge">His Ayurvedic Breakthrough</div>
+      <h3>Rebuild It At The Root.</h3>
+      <p class="cta-what">Rare, potent herbs — Ashwagandha, Shilajit, Gokshura, Kaunch Beej. The ones most men never get access to. Formulated by Dr. Madhu into one daily dose.</p>
+      <p class="cta-line">Not a quick fix. A real rebuild.</p>
+      <a href="https://modak.drmadhusudan.com">Get Kamdev Modak →</a>
+      <div class="cta-bonus">✓ Free consultation with Dr. Madhu included</div>
+    </div>
+
+    <!-- SECONDARY: consult -->
+    <div class="cta-secondary">
+      <span>Want to talk to Dr. Madhu first?</span>
+      <a href="https://consult.drmadhusudan.com">Book a 1:1 Consultation — ₹497 →</a>
+    </div>
+
+    <p class="email-note">📧 Your full results are in your inbox too.</p>
   </div>
 </section>
 
@@ -629,6 +674,17 @@ function renderResult(r){
     'Your lowest area is <strong>'+r.weakestName+'</strong>. And here\u2019s what most men get wrong about it.<br><br>'+
     'A pill can give you a few hours \u2014 then it wears off, because it only touches the surface. Your score points to something deeper, at the root. Root-level things don\u2019t get fixed by a patch \u2014 they get <strong>rebuilt</strong>, slowly and naturally, with the right daily support.<br><br>'+
     'That\u2019s the whole idea behind Ayurveda \u2014 and exactly what Kamdev Modak is built on. Not a quick mask. A natural daily rebuild of the energy and vitality everything else stands on.';
+
+  // recommendation lead — the "arrow" from their data to the recommendation (punchy)
+  const concern = answers['primary_concern'] ? answers['primary_concern'].val : '';
+  let concernLine;
+  if(concern === 'Erectile Dysfunction') concernLine = 'You flagged ED.';
+  else if(concern === 'Premature Ejaculation') concernLine = 'You flagged early ejaculation.';
+  else concernLine = 'Your lowest area: '+r.weakestName+'.';
+  document.getElementById('recLead').innerHTML =
+    '<div class="rec-arrow-top">'+concernLine+' Your score: <strong>'+r.total+'/120</strong>.</div>'+
+    '<div class="rec-arrow-mid">↓</div>'+
+    '<div class="rec-arrow-bottom">Here\u2019s where Dr. Madhu would start you.</div>';
 }
 </script>
 </body>
