@@ -90,6 +90,21 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;}
 .next-btn{background:linear-gradient(135deg,var(--maroon) 0%,var(--maroon-dark) 100%);color:var(--cream);padding:13px 34px;border-radius:50px;font-size:16px;font-weight:700;box-shadow:0 6px 18px rgba(139,21,56,0.3);transition:all .25s;}
 .next-btn:disabled{opacity:.4;cursor:not-allowed;}
 
+/* CREDIBILITY STRIP (intake questions) */
+.cred-strip{margin-top:34px;padding-top:22px;border-top:1px solid var(--cream-dark);}
+.cred-doc{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.cred-doc img{width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);}
+.cred-doc .cd-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:var(--maroon-dark);line-height:1.1;}
+.cred-doc .cd-title{font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;}
+.cred-label{font-size:11px;color:#9a8d82;text-transform:uppercase;letter-spacing:1.2px;font-weight:700;margin-bottom:10px;}
+.celeb-marquee{overflow:hidden;position:relative;border-radius:12px;}
+.celeb-marquee::before,.celeb-marquee::after{content:'';position:absolute;top:0;bottom:0;width:36px;z-index:2;pointer-events:none;}
+.celeb-marquee::before{left:0;background:linear-gradient(90deg,var(--cream),transparent);}
+.celeb-marquee::after{right:0;background:linear-gradient(270deg,var(--cream-dark),transparent);}
+.celeb-track{display:flex;gap:10px;width:max-content;animation:celebScroll 28s linear infinite;}
+.celeb-track img{width:96px;height:72px;object-fit:cover;border-radius:10px;border:1px solid var(--cream-dark);flex-shrink:0;}
+@keyframes celebScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
 /* OPT-IN */
 .optin h2{font-size:34px;color:var(--maroon-dark);margin-bottom:10px;}
 .optin .ready{display:inline-block;background:rgba(63,125,82,0.12);border:1px solid var(--green);color:var(--green);font-size:13px;font-weight:700;padding:6px 16px;border-radius:50px;margin-bottom:18px;}
@@ -253,6 +268,31 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;}
     <button class="back-btn" id="backBtn" onclick="goBack()">← Back</button>
     <button class="next-btn" id="nextBtn" onclick="goNext()" disabled>Next →</button>
   </div>
+  <!-- CREDIBILITY STRIP (intake questions only) -->
+  <div class="cred-strip" id="credStrip" style="display:none;">
+    <div class="cred-doc">
+      <img src="dr-madhu-quote.jpg" alt="Dr. Madhu Sudan">
+      <div>
+        <div class="cd-name">Dr. Madhu Sudan</div>
+        <div class="cd-title">14+ Years · 1,14,000+ Patients Treated</div>
+      </div>
+    </div>
+    <div class="cred-label">Trusted by India's biggest names</div>
+    <div class="celeb-marquee">
+      <div class="celeb-track">
+        <img src="celeb-govinda.jpg" alt="">
+        <img src="celeb-arbaaz-khan.jpg" alt="">
+        <img src="celeb-juhi-chawla.jpg" alt="">
+        <img src="celeb-karishma-kapoor.jpg" alt="">
+        <img src="celeb-soha-ali-khan.jpg" alt="">
+        <img src="celeb-govinda.jpg" alt="">
+        <img src="celeb-arbaaz-khan.jpg" alt="">
+        <img src="celeb-juhi-chawla.jpg" alt="">
+        <img src="celeb-karishma-kapoor.jpg" alt="">
+        <img src="celeb-soha-ali-khan.jpg" alt="">
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- INSIGHT CARD -->
@@ -359,13 +399,54 @@ const UTMS = getUTMs();
 // ====== QUESTIONS ======
 // dimension keys: physical, emotional, relationship, awareness
 const QUESTIONS = [
-  { id:'primary_concern', cat:'Primary Concern', scored:false,
+  { id:'primary_concern', cat:'Primary Concern', scored:false, intake:true,
     text:"What's your primary concern about your sexual wellness?",
     options:[
       {label:'Erectile Dysfunction (ED)', val:'Erectile Dysfunction'},
       {label:'Premature Ejaculation', val:'Premature Ejaculation'},
       {label:"I'm not sure what I'm dealing with", val:'Not sure'},
       {label:'Other', val:'Other'}
+    ]},
+  { id:'i_age', cat:'About You', scored:false, intake:true,
+    text:'What is your age?',
+    options:[
+      {label:'18–25', val:'18-25'},
+      {label:'26–35', val:'26-35'},
+      {label:'36–45', val:'36-45'},
+      {label:'46–60', val:'46-60'},
+      {label:'60+', val:'60+'}
+    ]},
+  { id:'i_duration', cat:'About You', scored:false, intake:true,
+    text:'How long have you been facing this concern?',
+    options:[
+      {label:'It started recently — less than 3 months', val:'<3 months'},
+      {label:'3–12 months', val:'3-12 months'},
+      {label:'1–3 years', val:'1-3 years'},
+      {label:'More than 3 years', val:'3+ years'}
+    ]},
+  { id:'i_combination', cat:'About You', scored:false, intake:true,
+    text:'Along with your main concern, do you also notice any of these?',
+    options:[
+      {label:'No — just my main concern', val:'None'},
+      {label:'Yes — erection issues too', val:'Also ED'},
+      {label:'Yes — early ejaculation too', val:'Also PE'},
+      {label:'Yes — low desire or low energy too', val:'Also low desire/energy'}
+    ]},
+  { id:'i_medications', cat:'About You', scored:false, intake:true,
+    text:'Are you taking regular medicines for any health condition?',
+    options:[
+      {label:'No regular medicines', val:'None'},
+      {label:'Yes — for diabetes', val:'Diabetes'},
+      {label:'Yes — for BP / heart health', val:'BP/Heart'},
+      {label:'Yes — other or multiple conditions', val:'Other/Multiple'}
+    ]},
+  { id:'i_morning', cat:'About You', scored:false, intake:true,
+    text:'Do you wake up with morning erections these days?',
+    options:[
+      {label:'Yes — almost every morning', val:'Regular'},
+      {label:'Sometimes — a few times a week', val:'Sometimes'},
+      {label:'Rarely', val:'Rare'},
+      {label:'Almost never', val:'Never'}
     ]},
   { id:'q_energy', cat:'Physical Vitality', dim:'physical', scored:true,
     text:'How would you rate your overall physical energy and stamina?',
@@ -465,20 +546,22 @@ const QUESTIONS = [
     ]}
 ];
 
-// ====== QUESTION FOOTNOTES (data points shown under specific questions, by index) ======
+// ====== QUESTION FOOTNOTES (data points shown under specific questions, by question id) ======
 const FOOTNOTES = {
-  1: { icon:'📊', text:'It\u2019s not just an "older man" problem — 1 in 6 men aged 18\u201324 meet the criteria for ED too. Energy and vitality are often the first signs.', src:'(J. Sexual Medicine, 2024)' },
-  4: { icon:'🩺', text:'Studies have found men with ED are several times more likely to experience anxiety and depression than men without it.', src:'(Andrologia, 2019)' },
-  7: { icon:'⚠️', text:'Low sexual satisfaction is one of the most common hidden causes of relationship strain and breakdown.', src:'(Procedia Social & Behavioral Sciences)' },
-  10: { icon:'✨', text:'The good news: caught early, these issues are highly addressable — most men simply never check.', src:'(J. Sexual Medicine)' }
+  i_morning: { icon:'🩺', text:'Doctors use morning erections as a natural health signal — your answer helps show whether a concern is more physical or more stress-related. There is no wrong answer.', src:'(Standard clinical screening)' },
+  q_energy: { icon:'📊', text:'It\u2019s not just an "older man" problem — 1 in 6 men aged 18\u201324 meet the criteria for ED too. Energy and vitality are often the first signs.', src:'(J. Sexual Medicine, 2024)' },
+  q_confidence: { icon:'🩺', text:'Studies have found men with ED are several times more likely to experience anxiety and depression than men without it.', src:'(Andrologia, 2019)' },
+  q_communication: { icon:'⚠️', text:'Low sexual satisfaction is one of the most common hidden causes of relationship strain and breakdown.', src:'(Procedia Social & Behavioral Sciences)' },
+  q_knowledge: { icon:'✨', text:'The good news: caught early, these issues are highly addressable — most men simply never check.', src:'(J. Sexual Medicine)' }
 };
-// After q_sleep (index 3 = end of Physical block), q_pressure (6 = Emotional), q_satisfaction (9 = Relationship)
+// Insight cards appear AFTER these questions (by question id):
+// q_sleep (end of Physical block), q_pressure (Emotional), q_satisfaction (Relationship)
 const CARDS = {
-  3: { img:'card-nutrition.jpg', eyebrow:'Ayurvedic Wisdom · Nutrition',
+  q_sleep: { img:'card-nutrition.jpg', eyebrow:'Ayurvedic Wisdom · Nutrition',
        text:'"Your body runs on what you feed it. Ancient Ayurveda knew this 5,000 years ago — real energy and vitality start with nourishment, not quick fixes."' },
-  6: { img:'card-science.jpg', eyebrow:'Mind & Body · The Science',
+  q_pressure: { img:'card-science.jpg', eyebrow:'Mind & Body · The Science',
        text:'"Modern science now confirms what Ayurveda always taught — stress and the mind directly shape physical performance. If you feel this, you are far from alone."' },
-  9: { img:'card-herbs.jpg', eyebrow:'Ayurvedic Wisdom · Herbs & Balance',
+  q_satisfaction: { img:'card-herbs.jpg', eyebrow:'Ayurvedic Wisdom · Herbs & Balance',
        text:'"Lasting change comes from restoring balance — not masking symptoms. The right herbs, used consistently, rebuild what pills only hide."' }
 };
 
@@ -524,7 +607,7 @@ function renderQuestion(){
   // next enabled?
   document.getElementById('nextBtn').disabled = !answers[q.id];
   // footnote (data point) for this question, if any
-  const fn = FOOTNOTES[current];
+  const fn = FOOTNOTES[q.id];
   const fnEl = document.getElementById('qFootnote');
   if(fn){
     document.querySelector('#qFootnote .fn-icon').textContent = fn.icon || '📊';
@@ -534,6 +617,8 @@ function renderQuestion(){
     if(fn.icon === '⚠️'){ fnEl.classList.add('fn-alert'); } else { fnEl.classList.remove('fn-alert'); }
     fnEl.style.display = 'flex';
   } else { fnEl.style.display = 'none'; }
+  // credibility strip (Dr. Madhu + celebrity trust) — intake questions only
+  document.getElementById('credStrip').style.display = q.intake ? 'block' : 'none';
 }
 
 function selectOption(q,i,opt){
@@ -548,8 +633,9 @@ function selectOption(q,i,opt){
 
 function goNext(){
   // is an insight card due after the current question?
-  if(CARDS[current]){
-    const c = CARDS[current];
+  const qid = QUESTIONS[current].id;
+  if(CARDS[qid]){
+    const c = CARDS[qid];
     document.getElementById('cardImg').src = c.img;
     document.getElementById('cardEyebrow').textContent = c.eyebrow;
     document.getElementById('cardText').textContent = c.text;
@@ -623,6 +709,8 @@ function submitLead(){
     name, email, phone,
     primary_concern: answers['primary_concern'] ? answers['primary_concern'].val : '',
     concern_other: concernOther,
+    age_group: v('i_age'), duration: v('i_duration'), combination: v('i_combination'),
+    medications: v('i_medications'), morning_erections: v('i_morning'),
     q_energy:s('q_energy'), q_physical:s('q_physical'), q_sleep:s('q_sleep'),
     q_confidence:s('q_confidence'), q_stress:s('q_stress'), q_pressure:s('q_pressure'),
     q_communication:s('q_communication'), q_connection:s('q_connection'), q_satisfaction:s('q_satisfaction'),
@@ -637,6 +725,7 @@ function submitLead(){
     .then(()=>renderResult(r)).catch(()=>renderResult(r));
 }
 function s(id){return answers[id]?answers[id].score:null;}
+function v(id){return answers[id]?answers[id].val:'';}
 
 // ====== RENDER RESULT ======
 function renderResult(r){

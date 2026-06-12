@@ -23,6 +23,7 @@ export default async function handler(req, res) {
   const {
     name, email, phone,
     primary_concern, concern_other,
+    age_group, duration, combination, medications, morning_erections,
     q_energy, q_physical, q_sleep, q_confidence, q_stress, q_pressure,
     q_communication, q_connection, q_satisfaction, q_knowledge, q_proactiveness, q_situation,
     dim_physical, dim_emotional, dim_relationship, dim_awareness,
@@ -40,6 +41,7 @@ export default async function handler(req, res) {
     const { error } = await supabase.from('assessment_results').insert([{
       name, email, phone,
       primary_concern, concern_other,
+      age_group, duration, combination, medications, morning_erections,
       q_energy, q_physical, q_sleep, q_confidence, q_stress, q_pressure,
       q_communication, q_connection, q_satisfaction, q_knowledge, q_proactiveness, q_situation,
       dim_physical, dim_emotional, dim_relationship, dim_awareness,
@@ -67,6 +69,8 @@ export default async function handler(req, res) {
           score: total_score != null ? String(total_score) : '',
           zone: zone || '',
           primary_concern: primary_concern || '',
+          duration: duration || '',
+          combination: combination || '',
           weakest_dimension: weakest_dimension || '',
           utm_source: utm_source || '',
           utm_medium: utm_medium || '',
