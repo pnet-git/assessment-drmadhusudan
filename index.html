@@ -205,6 +205,12 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;}
 .building{text-align:center;}
 .building-img{width:160px;height:160px;border-radius:50%;object-fit:cover;margin:0 auto 26px;display:block;box-shadow:0 14px 40px rgba(91,14,37,0.2);background:var(--cream-dark);}
 .building-spinner{width:44px;height:44px;border:4px solid var(--cream-dark);border-top-color:var(--maroon);border-radius:50%;margin:0 auto 24px;animation:spin 0.9s linear infinite;}
+.myth-band{margin:30px auto 0;max-width:480px;background:rgba(201,161,74,0.12);border:1px solid var(--gold);border-radius:14px;padding:20px 22px;text-align:left;}
+.myth-label{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:700;color:var(--maroon-dark);margin-bottom:8px;}
+.myth-fact{font-size:14px;line-height:1.55;color:#6b5d50;}
+.myth-fact strong{color:var(--maroon);}
+.myth-src{font-size:11px;font-style:italic;color:var(--gold);white-space:nowrap;}
+.myth-punch{margin-top:12px;padding-top:12px;border-top:1px solid rgba(201,161,74,0.35);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;font-weight:600;color:var(--maroon);}
 @keyframes spin{to{transform:rotate(360deg);}}
 .building h2{font-size:32px;color:var(--maroon-dark);margin-bottom:14px;}
 .building p{font-size:16px;color:#5c5048;max-width:420px;margin:0 auto;transition:opacity .3s;}
@@ -316,6 +322,11 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;}
     <div class="building-spinner"></div>
     <h2>Building Your <span class="accent">Personalised Score…</span></h2>
     <p id="buildingStep">Analysing your answers across all 5 pillars of sexual wellness…</p>
+    <div class="myth-band">
+      <div class="myth-label">💡 Myth: "It's rare — it's just me."</div>
+      <div class="myth-fact">Fact: <strong>1 in 4 men</strong> face these concerns — but fewer than 1 in 12 ever get assessed. Caught early, they're highly addressable. <span class="myth-src">(J. Sexual Medicine, 2024)</span></div>
+      <div class="myth-punch">You're about to know more than 9 in 10 men ever do.</div>
+    </div>
   </div>
 </section>
 
@@ -441,6 +452,7 @@ const QUESTIONS = [
       {label:'No regular medicines', val:'None'},
       {label:'Yes — for diabetes', val:'Diabetes'},
       {label:'Yes — for BP / heart health', val:'BP/Heart'},
+      {label:'Yes — for stress, anxiety or sleep', val:'Stress/Anxiety/Sleep'},
       {label:'Yes — other or multiple conditions', val:'Other/Multiple'}
     ]},
   { id:'i_morning', cat:'About You', scored:false, intake:true,
@@ -689,7 +701,7 @@ function runBuilding(){
     i++;
     if(i<steps.length){p.style.opacity=0;setTimeout(()=>{p.textContent=steps[i];p.style.opacity=1;},250);}
     else{clearInterval(iv);show('screen-optin');}
-  },1100);
+  },1400);
 }
 
 function goBack(){ if(current>0){current--;renderQuestion();} }
