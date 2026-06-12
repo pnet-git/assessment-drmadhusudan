@@ -101,8 +101,8 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;}
 .celeb-marquee::before,.celeb-marquee::after{content:'';position:absolute;top:0;bottom:0;width:36px;z-index:2;pointer-events:none;}
 .celeb-marquee::before{left:0;background:linear-gradient(90deg,var(--cream),transparent);}
 .celeb-marquee::after{right:0;background:linear-gradient(270deg,var(--cream-dark),transparent);}
-.celeb-track{display:flex;gap:10px;width:max-content;animation:celebScroll 28s linear infinite;}
-.celeb-track img{width:96px;height:72px;object-fit:cover;border-radius:10px;border:1px solid var(--cream-dark);flex-shrink:0;}
+.celeb-track{display:flex;gap:12px;width:max-content;animation:celebScroll 36s linear infinite;}
+.celeb-track img{width:150px;height:112px;object-fit:cover;border-radius:10px;border:1px solid var(--cream-dark);flex-shrink:0;}
 @keyframes celebScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 
 /* OPT-IN */
@@ -196,6 +196,7 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;}
 .card-insight{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 18px 50px rgba(91,14,37,0.15);border:1px solid var(--cream-dark);}
 .card-insight img{width:100%;height:230px;object-fit:cover;display:block;background:var(--cream-dark);}
 .card-body{padding:28px 26px 30px;}
+.card-badge{display:inline-block;background:rgba(201,161,74,0.16);border:1px solid var(--gold);color:var(--maroon);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 14px;border-radius:50px;margin-bottom:14px;}
 .card-eyebrow{font-size:13px;color:var(--gold);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:12px;}
 .card-text{font-size:18px;color:var(--ink);line-height:1.6;margin-bottom:22px;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;}
 .card-insight .next-btn{width:100%;}
@@ -300,6 +301,7 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;}
   <div class="card-insight">
     <img id="cardImg" src="" alt="">
     <div class="card-body">
+      <div class="card-badge">💡 Did You Know? · 10-second read</div>
       <div class="card-eyebrow" id="cardEyebrow"></div>
       <p class="card-text" id="cardText"></p>
       <button class="next-btn" onclick="cardContinue()">Continue →</button>
@@ -427,10 +429,11 @@ const QUESTIONS = [
   { id:'i_combination', cat:'About You', scored:false, intake:true,
     text:'Along with your main concern, do you also notice any of these?',
     options:[
-      {label:'No — just my main concern', val:'None'},
-      {label:'Yes — erection issues too', val:'Also ED'},
-      {label:'Yes — early ejaculation too', val:'Also PE'},
-      {label:'Yes — low desire or low energy too', val:'Also low desire/energy'}
+      {label:'Erection Issues (ED)', val:'Also ED'},
+      {label:'Early Ejaculation (PME)', val:'Also PE'},
+      {label:'Low Desire / Low Energy', val:'Also low desire/energy'},
+      {label:'More than one of these', val:'Multiple'},
+      {label:'No — only my main concern', val:'None'}
     ]},
   { id:'i_medications', cat:'About You', scored:false, intake:true,
     text:'Are you taking regular medicines for any health condition?',
@@ -576,6 +579,17 @@ function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.re
 
 function startQuiz(){current=0;document.getElementById('progressTop').classList.add('show');renderQuestion();show('screen-question');}
 
+// i_combination adapts to the primary concern — never show their own problem back as an option
+function optionsFor(q){
+  if(q.id !== 'i_combination') return q.options;
+  const concern = answers['primary_concern'] ? answers['primary_concern'].val : '';
+  return q.options.filter(o=>{
+    if(concern==='Erectile Dysfunction' && o.val==='Also ED') return false;
+    if(concern==='Premature Ejaculation' && o.val==='Also PE') return false;
+    return true;
+  });
+}
+
 function renderQuestion(){
   const q = QUESTIONS[current];
   document.getElementById('qCat').textContent = q.cat;
@@ -588,7 +602,7 @@ function renderQuestion(){
   // options
   const wrap = document.getElementById('qOptions'); wrap.innerHTML='';
   const stored = answers[q.id];
-  q.options.forEach((opt,i)=>{
+  optionsFor(q).forEach((opt,i)=>{
     const div = document.createElement('div');
     div.className = 'option' + (stored && stored.idx===i ? ' selected':'');
     div.innerHTML = '<span class="dot"></span><span>'+opt.label+'</span>';
@@ -624,6 +638,7 @@ function renderQuestion(){
 function selectOption(q,i,opt){
   answers[q.id] = q.scored ? {idx:i, score:opt.score, dim:q.dim} : {idx:i, val:opt.val};
   if(q.id==='primary_concern'){
+    delete answers['i_combination']; // options depend on concern — reset if concern changes
     const tWrap=document.getElementById('qTextInputWrap');
     if(opt.val==='Other'){tWrap.style.display='block';document.getElementById('qTextInput').oninput=(e)=>{concernOther=e.target.value;};}
     else{tWrap.style.display='none';concernOther='';}
@@ -640,7 +655,6 @@ function goNext(){
     document.getElementById('cardEyebrow').textContent = c.eyebrow;
     document.getElementById('cardText').textContent = c.text;
     pendingCardAfter = current;
-    document.getElementById('progressTop').classList.remove('show');
     show('screen-card');
     return;
   }
