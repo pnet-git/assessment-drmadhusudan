@@ -360,7 +360,7 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;}
     <p class="sub">Enter your details to unlock your personalised Sexual Wellness Score + a full breakdown. We'll also email you a deeper explanation from Dr. Madhu.</p>
     <input type="text" id="leadName" placeholder="Your first name" required>
     <input type="email" id="leadEmail" placeholder="Email address" required>
-    <input type="tel" id="leadPhone" placeholder="WhatsApp number (optional)">
+    <input type="tel" id="leadPhone" placeholder="WhatsApp number" required>
     <button class="btn" id="revealBtn" onclick="submitLead()" style="width:100%;">Reveal My Score →</button>
     <p class="note">🔒 100% confidential. We respect your privacy and never share your details.</p>
   </div>
@@ -763,6 +763,8 @@ function submitLead(){
   const phone=document.getElementById('leadPhone').value.trim();
   if(name.length<2){alert('Please enter your name');return;}
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){alert('Please enter a valid email');return;}
+  const phoneDigits=phone.replace(/[^0-9]/g,'');
+  if(phoneDigits.length<10||phoneDigits.length>15){alert('Please enter your WhatsApp number so Dr. Madhu\'s team can reach you');return;}
   const btn=document.getElementById('revealBtn'); btn.textContent='Calculating…'; btn.disabled=true;
 
   const r = computeResult();
