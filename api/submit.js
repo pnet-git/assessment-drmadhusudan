@@ -94,6 +94,54 @@ export default async function handler(req, res) {
     }
   } catch (e) { console.error('Kit exception:', e.message); }
 
+  // ---- 3. TELL SLACK ----
+  // Every assessment posts to #lead-alerts-dr-madhu. Under 50 is marked PRIORITY,
+  // because those men are in the worst shape and are the most likely to buy.
+  try {
+    const TOKEN = process.env.SLACK_BOT_TOKEN;
+    const CHANNEL = process.env.SLACK_ALERT_CHANNEL;
+    if (TOKEN && CHANNEL) {
+      const score = total_score != null ? total_score : 0;
+      const urgent = score < 50;
+      const digits = String(phone || '').replace(/[^0-9]/g, '');
+      const wa = digits ? (digits.length === 10 ? '91' + digits : digits) : '';
+
+      const lines = [
+        `*Score ${score}* · ${zone || 'Unknown'}`,
+        `*Wants help with:* ${primary_concern || 'Not said'}`,
+        `*Weakest area:* ${weakest_dimension || 'Unknown'}`,
+        `*Age:* ${age_group || 'Not said'}  ·  *How long:* ${duration || 'Not said'}`,
+        phone ? `*Phone:* ${phone}` : '*Phone:* none given, cannot call',
+        `*Email:* ${email}`,
+        utm_source ? `*Came from:* ${utm_source}` : null
+      ].filter(Boolean).join('\n');
+
+      const blocks = [
+        { type: 'header', text: { type: 'plain_text',
+          text: `${urgent ? '🔴 PRIORITY · ' : '🟢 '}${name || 'Someone'} took the assessment` } },
+        { type: 'section', text: { type: 'mrkdwn', text: lines } }
+      ];
+      if (wa) blocks.push({ type: 'actions', elements: [
+        { type: 'button', text: { type: 'plain_text', text: '💬 WhatsApp him' },
+          url: `https://wa.me/${wa}`, style: urgent ? 'primary' : undefined },
+        { type: 'button', text: { type: 'plain_text', text: '📞 Call' }, url: `tel:+${wa}` }
+      ]});
+      if (urgent) blocks.push({ type: 'context', elements: [{ type: 'mrkdwn',
+        text: 'Scored under 50. Ring this one first.' }] });
+
+      await fetch('https://slack.com/api/chat.postMessage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${TOKEN}` },
+        body: JSON.stringify({
+          channel: CHANNEL,
+          text: `${urgent ? '🔴 PRIORITY' : '🟢'} ${name || 'Someone'} scored ${score}`,
+          blocks
+        })
+      });
+      results.slack = true;
+    }
+  } catch (e) { console.error('Slack exception:', e.message); }
+
   // Always 200 so the front-end reveals the result; we logged any partial failures
   return res.status(200).json({ ok: true, ...results });
 }
