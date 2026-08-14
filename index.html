@@ -737,8 +737,24 @@ function runBuilding(){
   const iv=setInterval(()=>{
     i++;
     if(i<steps.length){p.style.opacity=0;setTimeout(()=>{p.textContent=steps[i];p.style.opacity=1;},250);}
-    else{clearInterval(iv);show('screen-optin');}
+    else{clearInterval(iv);show('screen-optin');logReached();}
   },1400);
+}
+
+// Quietly record that someone SAW the details screen. No name, email or phone.
+// The gap between this count and real submits is the drop-off number.
+let reachedLogged=false;
+function logReached(){
+  if(reachedLogged)return; reachedLogged=true;
+  try{
+    const r=computeResult();
+    fetch('/api/reached',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        total_score:r.total, zone:r.zone, weakest_dimension:r.weakestName,
+        primary_concern: answers['primary_concern']?answers['primary_concern'].val:'',
+        age_group:v('i_age'), utm_source:UTMS.utm_source
+      })}).catch(()=>{});
+  }catch(e){}
 }
 
 function goBack(){ if(current>0){current--;renderQuestion();} }
