@@ -121,24 +121,31 @@ export default async function handler(req, res) {
           text: `${urgent ? '🔴 PRIORITY · ' : '🟢 '}${name || 'Someone'} took the assessment` } },
         { type: 'section', text: { type: 'mrkdwn', text: lines } }
       ];
-      if (wa) blocks.push({ type: 'actions', elements: [
-        { type: 'button', text: { type: 'plain_text', text: '💬 WhatsApp him' },
-          url: `https://wa.me/${wa}`, style: urgent ? 'primary' : undefined },
-        { type: 'button', text: { type: 'plain_text', text: '📞 Call' }, url: `tel:+${wa}` }
-      ]});
+      // Only https links are allowed on a Slack button, so no tel: link here.
+      // The phone number sits in the text above and is tappable on mobile.
+      if (wa) {
+        const btn = { type: 'button', text: { type: 'plain_text', text: '💬 WhatsApp him' },
+          url: `https://wa.me/${wa}` };
+        if (urgent) btn.style = 'primary';
+        blocks.push({ type: 'actions', elements: [btn] });
+      }
       if (urgent) blocks.push({ type: 'context', elements: [{ type: 'mrkdwn',
         text: 'Scored under 50. Ring this one first.' }] });
 
-      await fetch('https://slack.com/api/chat.postMessage', {
+      // Slack answers 200 even when it refuses the message, so read the body.
+      // Otherwise a silent rejection looks like a success.
+      const sr = await fetch('https://slack.com/api/chat.postMessage', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${TOKEN}` },
+        headers: { 'Content-Type': 'application/json; charset=utf-8', 'Authorization': `Bearer ${TOKEN}` },
         body: JSON.stringify({
           channel: CHANNEL,
           text: `${urgent ? '🔴 PRIORITY' : '🟢'} ${name || 'Someone'} scored ${score}`,
           blocks
         })
       });
-      results.slack = true;
+      const sj = await sr.json().catch(() => ({}));
+      if (sj.ok) results.slack = true;
+      else console.error('Slack refused:', JSON.stringify(sj).slice(0, 400));
     }
   } catch (e) { console.error('Slack exception:', e.message); }
 
